@@ -164,3 +164,7 @@ cython_debug/
 
 # dlt
 secrets.toml
+
+# dbt
+dbt/logs
+database

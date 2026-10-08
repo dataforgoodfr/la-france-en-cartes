@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: education
+    meta:
+      external_location: "read_parquet('s3://lfe4/education/{name}/*.parquet')"
+    tables:
+      - name: ips_lycees
