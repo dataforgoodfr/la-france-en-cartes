@@ -1,0 +1,20 @@
+# put your configuration values here
+
+[runtime]
+log_level="WARNING"  # the system log level of dlt
+# use the dlthub_telemetry setting to enable/disable anonymous usage data reporting, see https://dlthub.com/docs/reference/telemetry
+dlthub_telemetry = false
+
+[pipeline]
+loader_file_format="parquet"
+
+[sources.filesystem]
+local_dir = "data"
+aws_endpoint_url=""
+bucket_url =""
+
+[sources.data_education_gouv_fr]
+bucket_url='https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/'
+
+[education]
+bucket_url = "s3://lfe4/education"
