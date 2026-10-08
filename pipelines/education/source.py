@@ -1,5 +1,6 @@
 import dlt
-from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
+from dlt.sources.rest_api import rest_api_resources
+from dlt.sources.rest_api.typing import RESTAPIConfig
 
 
 @dlt.source(name="ips_lycee")

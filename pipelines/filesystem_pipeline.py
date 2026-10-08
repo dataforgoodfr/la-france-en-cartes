@@ -3,12 +3,18 @@ import os
 from typing import Iterator
 
 import dlt
+from dlt.common.storages.fsspec_filesystem import FileItemDict
 from dlt.sources import TDataItems
-from dlt.sources.filesystem import FileItemDict, filesystem, readers, read_csv
+from dlt.sources.filesystem import filesystem, readers, read_csv
 
 
 # where the test files are, those examples work with (url)
 TESTS_BUCKET_URL = "samples"
+
+
+def print_normalize_info(pipeline: dlt.Pipeline) -> None:
+    if pipeline.last_trace is not None:
+        print_normalize_info(pipeline)
 
 
 def stream_and_merge_csv() -> None:
@@ -28,7 +34,7 @@ def stream_and_merge_csv() -> None:
     # NOTE: we load to met_csv table
     load_info = pipeline.run(met_files.with_name("met_csv"))
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
     # now let's simulate loading on next day. not only current data appears but also updated record for the previous day are present
     # all the records for previous day will be replaced with new records
@@ -40,7 +46,7 @@ def stream_and_merge_csv() -> None:
 
     # you can also do dlt pipeline standard_filesystem_csv show to confirm that all A801 were replaced with A803 records for overlapping day
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 def read_csv_with_duckdb() -> None:
@@ -58,7 +64,7 @@ def read_csv_with_duckdb() -> None:
     load_info = pipeline.run(met_files)
 
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 def read_csv_duckdb_compressed() -> None:
@@ -76,7 +82,7 @@ def read_csv_duckdb_compressed() -> None:
 
     load_info = pipeline.run(met_files)
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 def read_parquet_and_jsonl_chunked() -> None:
@@ -103,7 +109,7 @@ def read_parquet_and_jsonl_chunked() -> None:
         ]
     )
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 def read_custom_file_type_excel() -> None:
@@ -168,7 +174,7 @@ def copy_files_resource(local_folder: str) -> None:
     )
     # pretty print the information on data that was loaded
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 def read_files_incrementally_mtime() -> None:
@@ -185,7 +191,7 @@ def read_files_incrementally_mtime() -> None:
     new_files.apply_hints(incremental=dlt.sources.incremental("modification_date"))
     load_info = pipeline.run((new_files | read_csv()).with_name("csv_files"))
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
     # load again - no new files!
     new_files = filesystem(bucket_url=TESTS_BUCKET_URL, file_glob="csv/*")
@@ -193,7 +199,7 @@ def read_files_incrementally_mtime() -> None:
     new_files.apply_hints(incremental=dlt.sources.incremental("modification_date"))
     load_info = pipeline.run((new_files | read_csv()).with_name("csv_files"))
     print(load_info)
-    print(pipeline.last_trace.last_normalize_info)
+    print_normalize_info(pipeline)
 
 
 if __name__ == "__main__":
