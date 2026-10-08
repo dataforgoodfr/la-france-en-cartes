@@ -30,7 +30,7 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        aws s3 mb s3://$${AWS_STORAGE_BUCKET_NAME} --endpoint-url http://minio:9000
+        aws s3 mb s3://$${AWS_STORAGE_BUCKET_NAME} --endpoint-url ${AWS_ENDPOINT_URL}
         echo "Bucket ready."
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-minioadmin}
