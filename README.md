@@ -35,6 +35,8 @@ uv run pipelines/run.py run build_database
 
 [Installer les precommit](https://pre-commit.com/)
 
+    uv tool install pre-commit
+
     pre-commit run --all-files
 
 ## Utiliser Tox pour tester votre code
