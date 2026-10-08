@@ -1,0 +1,6 @@
+[sqlfluff]
+dialect = duckdb
+templater = jinja
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True

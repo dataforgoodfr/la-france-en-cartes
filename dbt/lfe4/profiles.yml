@@ -1,0 +1,20 @@
+lfe4:
+  outputs:
+    dev:
+      type: duckdb
+      # path: "{{ env_var('DUCKDB_DBPATH', 'database/lfe4.duckdb') }}"
+      threads: 1
+      external_root: "{{ env_var('DBT_EXTERNAL_ROOT', 's3://lfe4/database') }}"
+      extensions:
+        - httpfs
+        - parquet
+      secrets:
+        - type: s3
+          # s3_region: my-aws-region
+          key_id: "{{ env_var('AWS_ACCESS_KEY_ID', 'minioadmin') }}"
+          secret: "{{ env_var('AWS_SECRET_ACCESS_KEY', 'minioadmin') }}"
+          endpoint: "{{env_var('S3_ENDPOINT', 'localhost:9000')}}"
+          url_style: path
+          # local MinIO serves plain HTTP; set to true for an HTTPS endpoint
+          use_ssl: false
+  target: dev
