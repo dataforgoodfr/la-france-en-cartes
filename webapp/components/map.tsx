@@ -9,7 +9,13 @@ setWorkerUrl(new URL('maplibre-gl/dist/maplibre-gl-worker.mjs', import.meta.url)
 export default function MapBAse() {
   return (
     <Map
-      initialViewState={{ longitude: 2.5, latitude: 46.5, zoom: 5 }}
+      initialViewState={{
+          bounds: [
+            [-5.2, 41.3],
+            [9.6, 51.1],
+        ],
+        fitBoundsOptions: { padding: 24 },
+        }}
       style={{ width: "100%", height: "100%" }}
       mapStyle="https://tiles.openfreemap.org/styles/positron"
     />
