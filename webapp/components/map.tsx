@@ -28,7 +28,16 @@ export default function MapBase() {
           id="communes-aplat"
           type="fill"
           source-layer="ips_lycees_par_commune"
-          paint={{ "fill-color": "#3987e5", "fill-opacity": 0.8 }}
+          paint={{
+                  "fill-color": [
+                    "case",
+                    ["==", ["get", "ips_moyen"], null], "#c9c8c3",
+                    ["<", ["get", "ips_moyen"], 50], "#86b6ef",
+                    ["<", ["get", "ips_moyen"], 80], "#3987e5",
+                    ["<", ["get", "ips_moyen"], 100], "#1c5cab",
+                    "#0d366b",
+                  ],
+                }}
         />
       </Source>
 
