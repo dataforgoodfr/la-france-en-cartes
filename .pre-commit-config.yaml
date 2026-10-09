@@ -88,3 +88,11 @@ repos:
       - id: check-added-large-files
         name: "🌳 git · Block large file commits"
         args: ["--maxkb=1000"]
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (webapp)
+        entry: bash -c 'cd webapp && npx eslint --fix "${@#webapp/}"' --
+        language: system
+        files: ^webapp/.*\.(js|jsx|ts|tsx|mjs)$
