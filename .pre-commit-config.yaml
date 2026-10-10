@@ -11,22 +11,22 @@ default_install_hook_types:
 repos:
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.22.1
+    rev: v8.30.0
     hooks:
       - id: gitleaks
         name: "🔒 security · Detect hardcoded secrets"
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.1
+    rev: v0.17.0
     hooks:
-      - id: ruff
+      - id: ruff-check
         name: "🐍 python · Lint with Ruff"
         args: [--fix]
       - id: ruff-format
         name: "🐍 python · Format with Ruff"
 
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 3.3.0
+    rev: 4.4.0
     hooks:
       - id: sqlfluff-fix
         name: "📊 SQL · Fix rule violations"
@@ -35,14 +35,14 @@ repos:
         stages: [pre-push]
 
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.391
+    rev: v1.1.414
     hooks:
       - id: pyright
         name: "🐍 python · Check types"
         stages: [pre-push]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.0
+    rev: 0.38.2
     hooks:
       - id: check-github-workflows
         name: "🐙 github-actions · Validate gh workflow files"
@@ -51,13 +51,13 @@ repos:
         name: "✅ taskfile · Validate Task configuration"
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.21
+    rev: 0.13.0
     hooks:
       - id: uv-lock
         name: "📦 uv · Check lockfile is up to date"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         name: "📁 filesystem · Trim trailing whitespace"
@@ -93,6 +93,6 @@ repos:
     hooks:
       - id: eslint
         name: eslint (webapp)
-        entry: bash -c 'cd webapp && npx eslint --fix "${@#webapp/}"' --
+        entry: bash -c 'cd webapp && npx --no-install eslint --fix --no-warn-ignored "${@#webapp/}"' --
         language: system
         files: ^webapp/.*\.(js|jsx|ts|tsx|mjs)$
