@@ -8,6 +8,7 @@ lfe4:
       extensions:
         - httpfs
         - parquet
+        - spatial
       secrets:
         - type: s3
           # s3_region: my-aws-region

@@ -6,3 +6,8 @@ sources:
       external_location: "read_parquet('s3://lfe4/education/{name}/*.parquet')"
     tables:
       - name: ips_lycees
+  - name: transverse
+    meta:
+      external_location: "read_parquet('s3://lfe4/transverse/{name}/*.parquet')"
+    tables:
+      - name: contour_communes

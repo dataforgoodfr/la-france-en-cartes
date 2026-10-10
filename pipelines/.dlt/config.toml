@@ -15,6 +15,3 @@ bucket_url =""
 
 [sources.data_education_gouv_fr]
 bucket_url='https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/'
-
-[education]
-bucket_url = "s3://lfe4/education"
