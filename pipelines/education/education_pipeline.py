@@ -1,4 +1,5 @@
 import dlt
+
 from pipelines.education.source import ips_lycees
 
 
