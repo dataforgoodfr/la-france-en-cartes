@@ -16,29 +16,40 @@ repos:
       - id: gitleaks
         name: "🔒 security · Detect hardcoded secrets"
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.0
+  # Python tools run from the uv dev group, at the versions locked in uv.lock
+  - repo: local
     hooks:
       - id: ruff-check
         name: "🐍 python · Lint with Ruff"
-        args: [--fix]
+        entry: uv run --frozen ruff check --force-exclude --fix
+        language: system
+        types_or: [python, pyi, jupyter]
+        require_serial: true
       - id: ruff-format
         name: "🐍 python · Format with Ruff"
-
-  - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 4.4.0
-    hooks:
+        entry: uv run --frozen ruff format --force-exclude
+        language: system
+        types_or: [python, pyi, jupyter]
+        require_serial: true
       - id: sqlfluff-fix
         name: "📊 SQL · Fix rule violations"
+        entry: uv run --frozen sqlfluff fix --show-lint-violations --processes 0
+        language: system
+        types: [sql]
+        require_serial: true
       - id: sqlfluff-lint
         name: "📊 SQL · Lint SQL code files"
+        entry: uv run --frozen sqlfluff lint
+        language: system
+        types: [sql]
+        require_serial: true
         stages: [pre-push]
-
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.414
-    hooks:
       - id: pyright
         name: "🐍 python · Check types"
+        entry: uv run --frozen pyright
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
         stages: [pre-push]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
@@ -96,3 +107,8 @@ repos:
         entry: bash -c 'cd webapp && npx --no-install eslint --fix --no-warn-ignored "${@#webapp/}"' --
         language: system
         files: ^webapp/.*\.(js|jsx|ts|tsx|mjs)$
+      - id: tofu-fmt
+        name: "🏗️ tofu · Format HCL files"
+        entry: tofu fmt
+        language: system
+        files: ^infra/.*\.(tf|tfvars)$
