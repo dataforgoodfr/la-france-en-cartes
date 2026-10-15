@@ -2,13 +2,20 @@ from dlt.common.schema.typing import TWriteDisposition
 from dlt.sources.rest_api.typing import Endpoint, EndpointResource, PaginatorConfig
 
 
-def api_endpoint(path: str, paginator: PaginatorConfig, data_selector: str) -> Endpoint:
-
-    return {
+def api_endpoint(
+    path: str,
+    paginator: PaginatorConfig,
+    data_selector: str,
+    params: dict | None = None,
+) -> Endpoint:
+    endpoint: Endpoint = {
         "path": path,
         "paginator": paginator,
         "data_selector": data_selector,
     }
+    if params:
+        endpoint["params"] = params
+    return endpoint
 
 
 def api_resource(
