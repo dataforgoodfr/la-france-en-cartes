@@ -19,8 +19,9 @@ def api_resource(
     endpoint: Endpoint,
     write_disposition: TWriteDisposition = "replace",
 ) -> EndpointResource:
-    if pk not in columns:
-        raise ValueError(f"{pk} should be in columns")
+    missing = [key for key in pk if key not in columns]
+    if missing:
+        raise ValueError(f"{missing} should be in columns")
     return {
         "name": name,
         "write_disposition": write_disposition,
