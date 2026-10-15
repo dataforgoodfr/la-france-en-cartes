@@ -36,8 +36,11 @@ uv run pipelines/run.py run build_database
 [Installer les precommit](https://pre-commit.com/)
 
     uv tool install pre-commit
+    uv sync                      # installe ruff, sqlfluff et pyright aux versions de uv.lock
+    pre-commit install
 
     pre-commit run --all-files
+
 
 ## Utiliser Tox pour tester votre code
 
