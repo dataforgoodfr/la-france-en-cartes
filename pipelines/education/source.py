@@ -28,3 +28,42 @@ def ips_lycees():
         source_name="ips_lycee",
         resources=[resource],
     )
+
+
+def evaluations_6eme_departement():
+    resource = api_resource(
+        name="evaluations_nationales_6eme_departement",
+        # code_departement est vide pour les lignes "NATIONAL"
+        pk=["annee", "libelle_departement", "discipline", "caracteristique"],
+        columns={
+            "annee": {"data_type": "text"},
+            "libelle_departement": {"data_type": "text"},
+            "code_departement": {"data_type": "text"},
+            "discipline": {"data_type": "text"},
+            "caracteristique": {"data_type": "text"},
+            "ips_moyen": {"data_type": "double"},
+            "score_moyen": {"data_type": "bigint"},
+            "ecart_type": {"data_type": "double"},
+        },
+        processing_steps=[],
+        endpoint=api_endpoint(
+            path="fr-en-evaluations_nationales_6eme_departement/records",
+            paginator={
+                "type": "offset",
+                "limit": 100,
+                "offset_param": "offset",
+                "limit_param": "limit",
+                "total_path": "total_count",
+            },
+            data_selector="results",
+            params={
+                "order_by": "annee, libelle_departement, discipline, caracteristique"
+            },
+        ),
+    )
+
+    return api_source(
+        base_url="https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/",
+        source_name="evaluations_6eme",
+        resources=[resource],
+    )
