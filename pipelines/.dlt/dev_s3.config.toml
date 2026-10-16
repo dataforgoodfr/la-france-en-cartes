@@ -1,0 +1,5 @@
+# Profil dev_s3 : ecrit dans le MinIO local (docker compose up -d)
+# Identifiants dans dev_s3.secrets.toml (voir dev_s3.secrets.toml.example)
+
+[destination.filesystem]
+bucket_url = "s3://lfe4"

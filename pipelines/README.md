@@ -19,6 +19,23 @@ just sante_pipeline           # un domaine
 just pipelines                # tous, en parallèle
 ```
 
+### Profils
+
+La destination dépend du [profil dlt](https://dlthub.com/docs/general-usage/credentials/setup) actif. La config commune est dans `.dlt/config.toml`. Chaque profil la surcharge avec `.dlt/<profil>.config.toml` et `.dlt/<profil>.secrets.toml`.
+
+| Profil | Destination | Prérequis |
+|---|---|---|
+| `dev` (défaut) | local : `pipelines/.dlt/data/dev/lake` | aucun |
+| `dev_s3` | MinIO local : `s3://lfe4` | `docker compose up -d` + `cp .dlt/dev_s3.secrets.toml.example .dlt/dev_s3.secrets.toml` |
+| `prod` | S3 de prod | `.dlt/prod.secrets.toml` (voir `.dlt/prod.secrets.toml.example`) ou variables d'environnement |
+
+```bash
+WORKSPACE__PROFILE=dev_s3 just pipelines   # ponctuel
+echo dev_s3 > pipelines/.dlt/profile-name  # persistant (la variable d'env reste prioritaire)
+```
+
+L'état des pipelines est isolé par profil dans `.dlt/state/<profil>`.
+
 ## Contribuer
 
 ### Nouveau domaine
