@@ -1,9 +1,9 @@
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 
 import dlt
 from dlt.common.schema.typing import TColumnSchema, TWriteDisposition
 from dlt.common.storages.fsspec_filesystem import FileItemDict
-from dlt.sources import DltResource, TDataItems
+from dlt.sources import DltResource
 from dlt.sources.filesystem import filesystem
 from dlt.sources.rest_api import rest_api_resources
 from dlt.sources.rest_api.typing import (
@@ -14,8 +14,7 @@ from dlt.sources.rest_api.typing import (
     RESTAPIConfig,
 )
 
-# Reads the raw content of a file and yields (table_suffix, rows or dataframe) pairs
-FileReader = Callable[[bytes], Iterator[tuple[str, TDataItems]]]
+from pipelines.utils.sources_utils import FileReader
 
 
 def api_endpoint(
