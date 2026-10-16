@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: int_education__ips_lycees_derniere_rentree
+    columns:
+      - name: code_commune
+        data_tests:
+          - is_codgeo_2026:
+              arguments:
+                allow_hors_cog: true
