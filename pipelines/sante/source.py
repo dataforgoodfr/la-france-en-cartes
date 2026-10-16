@@ -36,6 +36,7 @@ def apl_medico_social():
     return api_resource(
         name="apl_medico_social",
         pk=["code_com"],
+        processing_steps=[],
         columns={
             "code_com": {"data_type": "text"},
             "apl_ehpa": {"data_type": "double"},

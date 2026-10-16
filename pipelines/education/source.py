@@ -10,6 +10,7 @@ def ips_lycees():
     return api_resource(
         name="ips_lycees",
         pk=["uai", "rentree_scolaire"],
+        processing_steps=[],
         columns={
             "uai": {"data_type": "text"},
             "rentree_scolaire": {"data_type": "text"},
@@ -32,6 +33,7 @@ def evaluations_6eme_departement():
         name="evaluations_nationales_6eme_departement",
         # code_departement est vide pour les lignes "NATIONAL"
         pk=["annee", "libelle_departement", "discipline", "caracteristique"],
+        processing_steps=[],
         columns={
             "annee": {"data_type": "text"},
             "libelle_departement": {"data_type": "text"},

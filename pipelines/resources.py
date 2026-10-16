@@ -38,9 +38,9 @@ def api_resource(
     name: str,
     pk: list[str],
     endpoint: Endpoint,
+    processing_steps: list[ProcessingSteps],
     columns: dict[str, TColumnSchema] | None = None,
     write_disposition: TWriteDisposition = "replace",
-    processing_steps: list[ProcessingSteps] | None = None,
 ) -> EndpointResource:
 
     return {
