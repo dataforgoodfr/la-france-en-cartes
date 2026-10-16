@@ -45,18 +45,9 @@ def evaluations_6eme_departement():
             "ecart_type": {"data_type": "double"},
         },
         endpoint=api_endpoint(
-            path="fr-en-evaluations_nationales_6eme_departement/records",
-            paginator={
-                "type": "offset",
-                "limit": 100,
-                "offset_param": "offset",
-                "limit_param": "limit",
-                "total_path": "total_count",
-            },
-            data_selector="results",
-            params={
-                "order_by": "annee, libelle_departement, discipline, caracteristique"
-            },
+            path="fr-en-evaluations_nationales_6eme_departement/exports/json",
+            paginator={"type": "single_page"},
+            data_selector="$",
         ),
     )
 
