@@ -2,4 +2,4 @@
 # Identifiants dans dev_s3.secrets.toml (voir dev_s3.secrets.toml.example)
 
 [destination.filesystem]
-bucket_url = "s3://lfe4"
+bucket_url = "s3://lfe4/lake"

@@ -1,5 +1,9 @@
 # Profil dev (par defaut), les fichier sont écrits sur disque, pas besoin de (container) s3.
-# Les donnees sont ecrites dans pipelines/.dlt/data/dev/lake
+# Les donnees sont ecrites dans ./data/dev/lake (racine du repo), lues ensuite par dbt.
+
+[workspace.settings]
+# relatif a pipelines/
+local_dir = "../data/dev"
 
 [destination.filesystem]
 bucket_url = "lake"
