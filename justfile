@@ -4,7 +4,7 @@ pipeline name:
 
 education_pipeline: (pipeline "education")
 transverse_pipeline: (pipeline "transverse")
-immigration_pipeline: (pipeline "immigration")
+#immigration_pipeline: (pipeline "immigration")
 sante_pipeline: (pipeline "sante")
 agriculture_pipeline: (pipeline "agriculture")
 
