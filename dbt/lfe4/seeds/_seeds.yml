@@ -1,0 +1,28 @@
+version: 2
+
+seeds:
+  - name: codgeo_2003_2026
+    description: >-
+      Table de passage des codes communes INSEE (codgeo_ini, de 2003 à 2026)
+      vers les codegeo 2026. Un codgeo_ini peut correspondre à
+      plusieurs codgeo_2026 en cas de scission. la table permet de passer de
+      n'importe quel millésime (>=2003) à 2026
+    config:
+      column_types:
+        codgeo_ini: varchar
+        codgeo_2026: varchar
+        libgeo_2026: varchar
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [codgeo_ini, codgeo_2026]
+    columns:
+      - name: codgeo_ini
+        data_tests:
+          - not_null
+      - name: codgeo_2026
+        data_tests:
+          - not_null
+      - name: libgeo_2026
+        data_tests:
+          - not_null
