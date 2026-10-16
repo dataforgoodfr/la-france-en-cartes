@@ -1,38 +1,18 @@
 import dlt
 
-from pipelines.education.source import evaluations_6eme_departement, ips_lycees
+from pipelines.education.source import education
 
 
-def parquet_from_data_education_gouv(
-    filepath="fr-en-ips_lycees/exports/parquet/", pipeline_name="ips_lycee"
-):
+def run(pipeline_name: str = "education") -> None:
     pipeline = dlt.pipeline(
         pipeline_name=pipeline_name,
         destination="filesystem",
         dataset_name="education",
     )
-
-    load_info = pipeline.run(ips_lycees(), loader_file_format="parquet")
-    if hasattr(load_info, "raise_on_failed_jobs"):
-        load_info.raise_on_failed_jobs()
-    print(load_info)
-
-
-def parquet_from_evaluations_6eme(pipeline_name="evaluations_6eme"):
-    pipeline = dlt.pipeline(
-        pipeline_name=pipeline_name,
-        destination="filesystem",
-        dataset_name="education",
-    )
-
-    load_info = pipeline.run(
-        evaluations_6eme_departement(), loader_file_format="parquet"
-    )
-    if hasattr(load_info, "raise_on_failed_jobs"):
-        load_info.raise_on_failed_jobs()
+    load_info = pipeline.run(education(), loader_file_format="parquet")
+    load_info.raise_on_failed_jobs()
     print(load_info)
 
 
 if __name__ == "__main__":
-    parquet_from_data_education_gouv()
-    parquet_from_evaluations_6eme()
+    run()
