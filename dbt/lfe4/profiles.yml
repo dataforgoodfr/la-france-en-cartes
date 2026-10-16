@@ -1,21 +1,49 @@
+# Mêmes profils que dlt
+# lake définit par lake_root dans dbt_project.yml
 lfe4:
   outputs:
     dev:
       type: duckdb
-      # path: "{{ env_var('DUCKDB_DBPATH', 'database/lfe4.duckdb') }}"
+      # Base locale persistante
+      path: "{{ env_var('LFE4_DATA_DIR', '../../data') }}/dev/warehouse/lfe4.duckdb"
       threads: 1
-      external_root: "{{ env_var('DBT_EXTERNAL_ROOT', 's3://lfe4/database') }}"
+      external_root: "{{ env_var('DBT_EXTERNAL_ROOT', env_var('LFE4_DATA_DIR', '../../data') ~ '/dev/warehouse') }}"
+      extensions:
+        - parquet
+        - spatial
+
+    # MinIO local (docker compose up -d).
+    dev_s3:
+      type: duckdb
+      threads: 1
+      external_root: "{{ env_var('DBT_EXTERNAL_ROOT', 's3://lfe4/warehouse') }}"
       extensions:
         - httpfs
         - parquet
         - spatial
       secrets:
         - type: s3
-          # s3_region: my-aws-region
           key_id: "{{ env_var('AWS_ACCESS_KEY_ID', 'minioadmin') }}"
           secret: "{{ env_var('AWS_SECRET_ACCESS_KEY', 'minioadmin') }}"
-          endpoint: "{{env_var('S3_ENDPOINT', 'localhost:9000')}}"
+          endpoint: "{{ env_var('S3_ENDPOINT', 'localhost:9000') }}"
           url_style: path
-          # local MinIO serves plain HTTP; set to true for an HTTPS endpoint
+          # MinIO local en HTTP
           use_ssl: false
-  target: dev
+
+    # S3 de prod
+    prod:
+      type: duckdb
+      threads: 4
+      external_root: "{{ env_var('DBT_EXTERNAL_ROOT') }}"
+      extensions:
+        - httpfs
+        - parquet
+        - spatial
+      secrets:
+        - type: s3
+          key_id: "{{ env_var('AWS_ACCESS_KEY_ID') }}"
+          secret: "{{ env_var('AWS_SECRET_ACCESS_KEY') }}"
+          endpoint: "{{ env_var('S3_ENDPOINT') }}"
+          url_style: path
+          use_ssl: true
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"

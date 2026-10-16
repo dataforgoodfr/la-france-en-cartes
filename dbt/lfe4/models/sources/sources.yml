@@ -3,11 +3,11 @@ version: 2
 sources:
   - name: education
     meta:
-      external_location: "read_parquet('s3://lfe4/education/{name}/*.parquet')"
+      external_location: "read_parquet('{lake_root}/{schema}/{name}/*.parquet')"
     tables:
       - name: ips_lycees
   - name: transverse
     meta:
-      external_location: "read_parquet('s3://lfe4/transverse/{name}/*.parquet')"
+      external_location: "read_parquet('{lake_root}/{schema}/{name}/*.parquet')"
     tables:
       - name: contour_communes

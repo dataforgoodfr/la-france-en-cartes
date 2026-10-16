@@ -25,9 +25,9 @@ La destination dépend du [profil dlt](https://dlthub.com/docs/general-usage/cre
 
 | Profil | Destination | Prérequis |
 |---|---|---|
-| `dev` (défaut) | local : `pipelines/.dlt/data/dev/lake` | aucun |
-| `dev_s3` | MinIO local : `s3://lfe4` | `docker compose up -d` + `cp .dlt/dev_s3.secrets.toml.example .dlt/dev_s3.secrets.toml` |
-| `prod` | S3 de prod | `.dlt/prod.secrets.toml` (voir `.dlt/prod.secrets.toml.example`) ou variables d'environnement |
+| `dev` (défaut) | local : `./data/dev/lake` (racine du repo) | aucun |
+| `dev_s3` | MinIO local : `s3://lfe4/lake` | `docker compose up -d` + `cp .dlt/dev_s3.secrets.toml.example .dlt/dev_s3.secrets.toml` |
+| `prod` | S3 de prod : `s3://<bucket>/lake` | `.dlt/prod.secrets.toml` (voir `.dlt/prod.secrets.toml.example`) ou variables d'environnement |
 
 ```bash
 WORKSPACE__PROFILE=dev_s3 just pipelines   # ponctuel
@@ -35,6 +35,9 @@ echo dev_s3 > pipelines/.dlt/profile-name  # persistant (la variable d'env reste
 ```
 
 L'état des pipelines est isolé par profil dans `.dlt/state/<profil>`.
+
+> [!WARNING]
+> dlt mémorise le dossier local (`local_dir`) au premier run de chaque pipeline. si le dossier d'écriture change, supprimer `.dlt/state/<profil>`
 
 ## Contribuer
 

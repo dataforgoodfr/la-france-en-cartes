@@ -24,3 +24,12 @@ models:
       +materialized: view
     marts:
       +materialized: external
+
+sources:
+  lfe4:
+    +meta:
+      # Racine du lake dlt
+      lake_root: >-
+        {{ env_var('DBT_LAKE_ROOT') if target.name == 'prod'
+           else env_var('DBT_LAKE_ROOT', 's3://lfe4/lake' if target.name == 'dev_s3'
+           else env_var('LFE4_DATA_DIR', '../../data') ~ '/dev/lake') }}
