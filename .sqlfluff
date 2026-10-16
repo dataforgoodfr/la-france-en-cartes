@@ -4,3 +4,4 @@ templater = jinja
 
 [sqlfluff:templater:jinja]
 apply_dbt_builtins = True
+load_macros_from_path = dbt/lfe4/macros
