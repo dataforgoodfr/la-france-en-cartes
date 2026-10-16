@@ -1,0 +1,5 @@
+# Profil dev (par defaut), les fichier sont écrits sur disque, pas besoin de (container) s3.
+# Les donnees sont ecrites dans pipelines/.dlt/data/dev/lake
+
+[destination.filesystem]
+bucket_url = "lake"
