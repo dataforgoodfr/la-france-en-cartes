@@ -1,9 +1,9 @@
-# La France en Cartes (lfe4)
+# La France en Cartes
 
 Les transformations/agrégations/join sont fait dans des modèles dbt.
 dbt permet de gérer la data comme du code:
-    - tests
-    - macros (DRY)
+ - tests
+ - macros (DRY)
 
 
 ## Exécuter dbt
@@ -61,14 +61,14 @@ Les models staging sont des views.
 Les models sont organisés en sous-dossier par source (INSEE, data.gouv,...).
 
 Conventions de noms:
-    stg_<source>__<entity>.sql
+    `stg_<source>__<entity>.sql`
 
 
 ### intermediate
 
 Les models int sont organisés par sous-dossier thématique (immigration, santé,...)
 Conventions de noms:
-    int_<theme>__<entity>.sql
+    `int_<theme>__<entity>.sql`
 
 Ces models n'ont pas vocations à servir le front.
 Dans cette couche, on fait les premières jointures. On change au besoin la granularité (communes->departements)
@@ -82,7 +82,7 @@ Les marts sont dans la couche qui sert le front. Les données doivent être dén
 Ils sont dans des sous-dossiers, par thèmes.
 
 Conventions de noms:
-    mart_<theme>__<indicateur>.sql
+    `mart_<theme>__<indicateur>.sql`
 
 Cette couche est exportée en parquet.
 
