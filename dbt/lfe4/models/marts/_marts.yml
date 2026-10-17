@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: mart_education__ips_lycees_par_commune
+    columns:
+      - name: code_commune
+        data_tests:
+          - is_codgeo_2026:
+              arguments:
+                allow_hors_cog: true
+              config:
+                severity: warn

@@ -1,6 +1,10 @@
-# La France en Cartes (lfe4)
+# La France en Cartes
 
-WIP
+Les transformations/agrégations/join sont fait dans des modèles dbt.
+dbt permet de gérer la data comme du code:
+ - tests
+ - macros (DRY)
+
 
 ## Exécuter dbt
 
@@ -32,3 +36,61 @@ LOAD spatial;
 ```
 
 Le target se choisit avec `-t` ou `DBT_TARGET`. `DBT_LAKE_ROOT` et `DBT_EXTERNAL_ROOT` surchargent aussi les valeurs par défaut de `dev` et `dev_s3`.
+
+## Contribuer
+
+
+### Source
+
+Afin de contribuer, la première étape est d'ajouter une source dans models/sources.
+Les sources permettent d'alimenter les models staging à partir des parquets créés par dlt.
+Dans la logique ELT, on charge les sources tel-quel, brutes.
+
+### staging
+
+Les models staging prennent leur source dans `sources`.
+Ces models n'appliquent que des changements légés sur la donnée:
+ - renommage
+ - typing
+ - conversion (centimes en euros par ex)
+ - catégories (bucket, booléens)
+
+A ce niveau, pas de joins ou d'agrégations.
+Les models staging sont des views.
+
+Les models sont organisés en sous-dossier par source (INSEE, data.gouv,...).
+
+Conventions de noms:
+    `stg_<source>__<entity>.sql`
+
+
+### intermediate
+
+Les models int sont organisés par sous-dossier thématique (immigration, santé,...)
+Conventions de noms:
+    `int_<theme>__<entity>.sql`
+
+Ces models n'ont pas vocations à servir le front.
+Dans cette couche, on fait les premières jointures. On change au besoin la granularité (communes->departements)
+Les transformations complexes ont leur propre model afin d'assurer la lisibilité et maintenabilité.
+
+Ces models sont des views.
+
+### marts
+
+Les marts sont dans la couche qui sert le front. Les données doivent être dénormalisées, prêtes à être utilisées.
+Ils sont dans des sous-dossiers, par thèmes.
+
+Conventions de noms:
+    `mart_<theme>__<indicateur>.sql`
+
+Cette couche est exportée en parquet.
+
+## Best practices
+Autant que faire ce peut, le code réutilisable doit être écrit en macro.
+Les models doivent être testé.
+
+## INSEE
+Les données de l'INSEE peuvent avoir quelques subtilités:
+ - codegeo millésimé sur une ancienne année (chaque année des communes sont fusionnées)
+ - Arrondissement pour Paris, Lyon, Marseille - parfois seules les communes sont présentes, parfois seuls les arrondissements, parfois les deux

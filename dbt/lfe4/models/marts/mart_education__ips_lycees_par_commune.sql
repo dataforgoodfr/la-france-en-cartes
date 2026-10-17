@@ -1,8 +1,6 @@
 with ips as (
     select
         code_commune,
-        any_value(nom_commune) as nom_commune,
-        any_value(code_departement) as code_departement,
         count(*) as nb_lycees,
         count(*) filter (where secteur = 'public') as nb_lycees_publics,
         count(*) filter (where secteur = 'privé sous contrat')
@@ -17,8 +15,9 @@ with ips as (
 
 select
     ips.code_commune,
-    ips.nom_commune,
-    ips.code_departement,
+    -- nom et département issus des contours, référentiel 2026
+    tc.nom as nom_commune,
+    tc.departement as code_departement,
     ips.nb_lycees,
     ips.nb_lycees_publics,
     ips.nb_lycees_prives,

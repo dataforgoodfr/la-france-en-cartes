@@ -1,3 +1,20 @@
+with derniere_rentree as (
+    select *
+    from {{ ref('stg_education__ips_lycees') }}
+    qualify row_number() over (
+        partition by uai
+        order by rentree_scolaire desc
+    ) = 1
+),
+
+ips_codgeo_2026 as (
+    {{ project_codgeo_2026(
+        'derniere_rentree',
+        'code_insee_de_la_commune',
+        'nom_de_la_commune'
+    ) }}
+)
+
 select
     uai,
     nom_de_l_etablissment as nom_etablissement,
@@ -10,8 +27,4 @@ select
     ips_voie_gt,
     ips_voie_pro,
     ips_ensemble_gt_pro
-from {{ ref('stg_education__ips_lycees') }}
-qualify row_number() over (
-    partition by uai
-    order by rentree_scolaire desc
-) = 1
+from ips_codgeo_2026
