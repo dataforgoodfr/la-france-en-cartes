@@ -1,0 +1,53 @@
+name: run ingestion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ingestion/**'
+      - 'justfile'
+      - 'uv.lock'
+      - 'pyproject.toml'
+      - '.github/workflows/ingestion.yml'
+
+  workflow_dispatch:
+    inputs:
+      domain:
+        type: choice
+        options: [tous, sante, agriculture, transverse, education]
+        default: tous
+
+permissions:
+  contents: read
+
+jobs:
+  ingestion-pre-prod:
+    strategy:
+      fail-fast: false
+      matrix:
+        domain:  ${{ fromJSON(
+          (github.event_name == 'workflow_dispatch' && inputs.domain != 'tous')
+          && format('["{0}"]', inputs.domain)
+          || '["sante","agriculture","transverse","education"]') }}
+    runs-on: ubuntu-24.04
+    environment: pre-prod
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.domain }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - uses: extractions/setup-just@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: ingestion ${{ matrix.domain}} sur pre-prod
+        run: just ${{ matrix.domain}}_pipeline
+        env:
+          DESTINATION__FILESYSTEM__BUCKET_URL: ${{ secrets.BUCKET_URL }}
+          DESTINATION__FILESYSTEM__CREDENTIALS__AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          DESTINATION__FILESYSTEM__CREDENTIALS__AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DESTINATION__FILESYSTEM__CREDENTIALS__ENDPOINT_URL: ${{ secrets.ENDPOINT_URL }}
