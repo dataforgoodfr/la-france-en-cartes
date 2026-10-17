@@ -50,10 +50,10 @@ Dans la logique ELT, on charge les sources tel-quel, brutes.
 
 Les models staging prennent leur source dans `sources`.
 Ces models n'appliquent que des changements légés sur la donnée:
-    - renommage
-    - typing
-    - conversion (centimes en euros par ex)
-    - catégories (bucket, booléens)
+ - renommage
+ - typing
+ - conversion (centimes en euros par ex)
+ - catégories (bucket, booléens)
 
 A ce niveau, pas de joins ou d'agrégations.
 Les models staging sont des views.
@@ -92,5 +92,5 @@ Les models doivent être testé.
 
 ## INSEE
 Les données de l'INSEE peuvent avoir quelques subtilités:
-    - codegeo millésimé sur une ancienne année (chaque année des communes sont fusionnées)
-    - Arrondissement pour Paris, Lyon, Marseille - parfois seules les communes sont présentes, parfois seuls les arrondissements, parfois les deux
+ - codegeo millésimé sur une ancienne année (chaque année des communes sont fusionnées)
+ - Arrondissement pour Paris, Lyon, Marseille - parfois seules les communes sont présentes, parfois seuls les arrondissements, parfois les deux
