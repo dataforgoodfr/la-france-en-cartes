@@ -1,0 +1,42 @@
+name: transformation
+
+on:
+  push:
+    branches: [main]
+    paths: [dbt/**, pyproject.toml, uv.lock, .github/workflows/transformation.yml]
+  workflow_dispatch:
+
+
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: dbt/lfe4/
+
+jobs:
+  transformation:
+    environment: pre-prod
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.workflow}}
+      cancel-in-progress: false
+    env:
+      DBT_TARGET: pre_prod
+      DBT_LAKE_ROOT: ${{secrets.LAKE_URL}}
+      DBT_EXTERNAL_ROOT: ${{secrets.WAREHOUSE_URL}}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3_ENDPOINT: ${{ secrets.DUCKDB_S3_ENDPOINT }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Install dbt packages
+        run: uv run dbt deps
+      - name: Build dbt
+        run: uv run dbt build

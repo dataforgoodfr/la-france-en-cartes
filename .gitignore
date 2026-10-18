@@ -170,7 +170,7 @@ pipelines/.dlt/profile-name
 # dbt
 dbt/logs
 database
-
+dbt/lfe4/.user.yml
 
 # data
 data

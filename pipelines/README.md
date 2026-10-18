@@ -27,7 +27,7 @@ La destination dépend du [profil dlt](https://dlthub.com/docs/general-usage/cre
 |---|---|---|
 | `dev` (défaut) | local : `./data/dev/lake` (racine du repo) | aucun |
 | `dev_s3` | MinIO local : `s3://lfe4/lake` | `docker compose up -d` + `cp .dlt/dev_s3.secrets.toml.example .dlt/dev_s3.secrets.toml` |
-| `prod` | S3 de prod : `s3://<bucket>/lake` | `.dlt/prod.secrets.toml` (voir `.dlt/prod.secrets.toml.example`) ou variables d'environnement |
+| `pre_prod` | S3 de pre-prod : `s3://<bucket>/lake` | `.dlt/pre_prod.secrets.toml` (voir `.dlt/pre_prod.secrets.toml.example`) ou variables d'environnement |
 
 ```bash
 WORKSPACE__PROFILE=dev_s3 just pipelines   # ponctuel

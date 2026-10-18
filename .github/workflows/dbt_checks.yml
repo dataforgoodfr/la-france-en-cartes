@@ -1,0 +1,35 @@
+name: dbt checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [dbt/**, .sqlfluff, pyproject.toml, uv.lock, .github/workflows/dbt_checks.yml]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: dbt/lfe4/
+
+jobs:
+  dbt_checks:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.workflow}}-${{ github.ref}}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Install dbt packages
+        run: uv run dbt deps
+      - name: Parse dbt
+        run: uv run dbt parse
+      - name: Score dbt project quality
+        run: |
+          uv run dbt-score lint

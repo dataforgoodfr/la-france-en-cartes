@@ -26,7 +26,7 @@ Les targets dbt reprennent les [profils dlt](../../pipelines/README.md#profils) 
 |---|---|---|---|
 | `dev` (défaut) | `./data/dev/lake` | `./data/dev/warehouse` | pipelines lancées avec le profil dlt `dev` |
 | `dev_s3` | `s3://lfe4/lake` (MinIO local) | `s3://lfe4/warehouse` | `docker compose up -d` |
-| `prod` | `$DBT_LAKE_ROOT` | `$DBT_EXTERNAL_ROOT` | `DBT_LAKE_ROOT`, `DBT_EXTERNAL_ROOT`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_ENDPOINT` |
+| `pre_prod` | `$DBT_LAKE_ROOT` | `$DBT_EXTERNAL_ROOT` | `DBT_LAKE_ROOT`, `DBT_EXTERNAL_ROOT`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_ENDPOINT` |
 
 En `dev`, la base DuckDB est `./data/dev/warehouse/lfe4.duckdb`. Les marts y sont des vues sur les fichiers parquet. Pensez à charger l'extension `spatial` pour lire les colonnes géométriques.
 
