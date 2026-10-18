@@ -29,7 +29,7 @@ jobs:
       DBT_EXTERNAL_ROOT: ${{secrets.WAREHOUSE_URL}}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      S3_ENDPOINT: ${{ secrets.DUCKDB_S3_ENDPOINT }}
+      S3_ENDPOINT: ${{ vars.DUCKDB_S3_ENDPOINT }}
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
