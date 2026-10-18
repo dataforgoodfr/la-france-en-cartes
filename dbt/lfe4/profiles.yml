@@ -30,8 +30,8 @@ lfe4:
           # MinIO local en HTTP
           use_ssl: false
 
-    # S3 de prod
-    prod:
+    # S3 de pre-prod
+    pre_prod:
       type: duckdb
       threads: 4
       external_root: "{{ env_var('DBT_EXTERNAL_ROOT') }}"
