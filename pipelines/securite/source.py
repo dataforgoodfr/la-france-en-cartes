@@ -5,6 +5,7 @@ from pipelines.sources import build_source
 
 DATA_GOUV_API = "https://tabular-api.data.gouv.fr"
 
+
 def chiffres_delinquance():
     return api_resource(
         # nom de la ressource
@@ -27,6 +28,7 @@ def chiffres_delinquance():
             data_selector="$",
         ),
     )
+
 
 def securite() -> DltSource:
     return build_source(
