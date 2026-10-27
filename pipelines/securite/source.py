@@ -1,5 +1,8 @@
+from dlt.sources import DltSource
+
 from pipelines.resources import api_endpoint, api_resource, api_resources
 from pipelines.sources import build_source
+
 
 DATA_GOUV_API = "https://tabular-api.data.gouv.fr"
 
