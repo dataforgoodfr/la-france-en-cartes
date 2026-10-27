@@ -3,7 +3,6 @@ from dlt.sources import DltSource
 from pipelines.resources import api_endpoint, api_resource, api_resources
 from pipelines.sources import build_source
 
-
 DATA_GOUV_API = "https://tabular-api.data.gouv.fr"
 
 def chiffres_delinquance():
@@ -17,7 +16,7 @@ def chiffres_delinquance():
         columns={
             "unite_de_compte": {"data_type": "text"},
             "nombre": {"data_type": "bigint"},
-            "taux_pour_mille": {"data_type": "double"}
+            "taux_pour_mille": {"data_type": "double"},
         },
         # adresse de l'endpoint où vit la donnée
         endpoint=api_endpoint(
