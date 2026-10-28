@@ -45,3 +45,30 @@ uv run pipelines/run.py run build_database
 ## Utiliser Tox pour tester votre code
 
     tox -vv
+
+## Utiliser le serveur S3
+
+Démarrer le serveur
+
+```bash
+docker-compose up -d
+```
+
+Stopper le serveur
+
+```bash
+docker-compose up -d
+```
+
+Voir les logs du serveur
+
+```bash
+docker logs garage
+```
+
+Attention. En cas d'erreur de permission, il y a deux solutions possibles :
+
+1. créer un group `docker` et y ajouter son compte (recommandé)  
+   voir [Linux post-installation steps for Docker Engine | Docker Docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+2. utiliser `sudo`
+
