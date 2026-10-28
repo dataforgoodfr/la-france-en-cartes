@@ -1,3 +1,5 @@
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+
 # dlt's ingestion pipelines
 pipeline name:
     uv run --directory pipelines python -m {{name}}.{{name}}_pipeline
@@ -7,10 +9,11 @@ transverse_pipeline: (pipeline "transverse")
 #immigration_pipeline: (pipeline "immigration")
 sante_pipeline: (pipeline "sante")
 agriculture_pipeline: (pipeline "agriculture")
+securite_pipeline: (pipeline "securite")
 
 # Lance tous les pipelines en parallele (logs entremeles : lancer un pipeline seul pour deboguer)
 [parallel]
-pipelines: (pipeline "education") (pipeline "transverse") (pipeline "sante") (pipeline "agriculture")
+pipelines: (pipeline "education") (pipeline "transverse") (pipeline "sante") (pipeline "agriculture") (pipeline "securite")
 
 # dbt (ex. just dbt build -t dev_s3). Chemins absolus vers ./data pour le target dev.
 dbt *args:
