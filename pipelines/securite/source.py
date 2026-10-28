@@ -23,7 +23,6 @@ def chiffres_delinquance():
         endpoint=api_endpoint(
             # éviter /records en général : préférer /exports/json
             path="/api/resources/2b27a675-e3bf-41ef-a852-5fb9ab483967/data/json/",
-            params={"page_size": 10},
             paginator={"type": "single_page"},
             data_selector="$",
         ),
