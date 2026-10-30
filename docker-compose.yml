@@ -22,4 +22,3 @@ services:
 volumes:
   garage_meta:
   garage_data:
-
