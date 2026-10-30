@@ -15,7 +15,7 @@ just dbt build               # target dev
 just dbt build -t dev_s3     # autre target
 ```
 
-La recette crée `./data/dev/warehouse` si besoin.
+La recette crée `./data/dev/warehouse`, `./data/dev/database` et `./data/dev_s3/database` si besoin.
 En profil dev, les données sont écrites dans data/dev/warehouse
 
 ## Profils
@@ -28,7 +28,7 @@ Les targets dbt reprennent les [profils dlt](../../pipelines/README.md#profils) 
 | `dev_s3` | `s3://lfe4/lake` (MinIO local) | `s3://lfe4/warehouse` | `docker compose up -d` |
 | `pre_prod` | `$DBT_LAKE_ROOT` | `$DBT_EXTERNAL_ROOT` | `DBT_LAKE_ROOT`, `DBT_EXTERNAL_ROOT`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_ENDPOINT` |
 
-En `dev`, la base DuckDB est `./data/dev/warehouse/lfe4.duckdb`. Les marts y sont des vues sur les fichiers parquet. Pensez à charger l'extension `spatial` pour lire les colonnes géométriques.
+En `dev`, la base DuckDB est `./data/dev/database/lfe4.duckdb` (`./data/dev_s3/database/lfe4.duckdb` en `dev_s3`). En `pre_prod`, la CI la construit localement puis la copie sur le S3 à l'URL de la variable `DUCKDB_S3_URL`. Les marts y sont des vues sur les fichiers parquet. Pensez à charger l'extension `spatial` pour lire les colonnes géométriques.
 
 ```SQL
 INSTALL spatial;

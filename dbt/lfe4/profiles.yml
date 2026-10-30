@@ -5,7 +5,7 @@ lfe4:
     dev:
       type: duckdb
       # Base locale persistante
-      path: "{{ env_var('LFE4_DATA_DIR', '../../data') }}/dev/warehouse/lfe4.duckdb"
+      path: "{{ env_var('LFE4_DATA_DIR', '../../data') }}/dev/database/lfe4.duckdb"
       threads: 1
       external_root: "{{ env_var('DBT_EXTERNAL_ROOT', env_var('LFE4_DATA_DIR', '../../data') ~ '/dev/warehouse') }}"
       extensions:
@@ -15,6 +15,7 @@ lfe4:
     # MinIO local (docker compose up -d).
     dev_s3:
       type: duckdb
+      path: "{{ env_var('LFE4_DATA_DIR', '../../data') }}/dev_s3/database/lfe4.duckdb"
       threads: 1
       external_root: "{{ env_var('DBT_EXTERNAL_ROOT', 's3://lfe4/warehouse') }}"
       extensions:
@@ -34,6 +35,7 @@ lfe4:
     pre_prod:
       type: duckdb
       threads: 4
+      path: lfe4.duckdb
       external_root: "{{ env_var('DBT_EXTERNAL_ROOT') }}"
       extensions:
         - httpfs
