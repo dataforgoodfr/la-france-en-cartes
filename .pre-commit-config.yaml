@@ -107,8 +107,3 @@ repos:
         entry: bash -c 'cd webapp && npx --no-install eslint --fix --no-warn-ignored "${@#webapp/}"' --
         language: system
         files: ^webapp/.*\.(js|jsx|ts|tsx|mjs)$
-      - id: tofu-fmt
-        name: "🏗️ tofu · Format HCL files"
-        entry: tofu fmt
-        language: system
-        files: ^infra/.*\.(tf|tfvars)$
