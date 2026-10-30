@@ -1,9 +1,10 @@
 name: pre-commit
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
 
@@ -18,15 +19,11 @@ jobs:
         cache-dependency-path: webapp/package-lock.json
     - run: npm ci
       working-directory: webapp
-    # Python version comes from .python-version
-    - uses: astral-sh/setup-uv@v7
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         enable-cache: true
         activate-environment: true
     - run: uv sync --locked
-    - uses: opentofu/setup-opentofu@v1
-      with:
-        tofu_wrapper: false
     - name: set PY
       run: echo "PY=$(python -c 'import hashlib, sys;print(hashlib.sha256(sys.version.encode()+sys.executable.encode()).hexdigest())')" >> $GITHUB_ENV
     - uses: actions/cache@v4
