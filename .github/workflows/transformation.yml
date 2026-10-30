@@ -36,3 +36,10 @@ jobs:
         run: uv run dbt deps
       - name: Build dbt
         run: uv run dbt build
+      - name: Upload DuckDB database
+        env:
+          DUCKDB_S3_URL: ${{ vars.DUCKDB_S3_URL }}
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+        run: aws s3 cp lfe4.duckdb "$DUCKDB_S3_URL" --endpoint-url "https://$S3_ENDPOINT"
