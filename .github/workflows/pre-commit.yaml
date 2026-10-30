@@ -8,10 +8,9 @@ on:
 jobs:
 
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v7
     - uses: actions/setup-node@v4
       with:
         node-version: 22
@@ -19,10 +18,12 @@ jobs:
         cache-dependency-path: webapp/package-lock.json
     - run: npm ci
       working-directory: webapp
-    - uses: astral-sh/setup-uv@v6
+    # Python version comes from .python-version
+    - uses: astral-sh/setup-uv@v7
       with:
         enable-cache: true
-    - run: uv sync --frozen
+        activate-environment: true
+    - run: uv sync --locked
     - uses: opentofu/setup-opentofu@v1
       with:
         tofu_wrapper: false
