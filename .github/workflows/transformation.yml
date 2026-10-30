@@ -43,3 +43,7 @@ jobs:
           AWS_REQUEST_CHECKSUM_CALCULATION: when_required
           AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
         run: aws s3 cp lfe4.duckdb "$DUCKDB_S3_URL" --endpoint-url "https://$S3_ENDPOINT"
+      - name: Export DuckDB to Postgres
+        env:
+          PG_URI: ${{ secrets.PG_URI }}
+        run: uv run python ../../scripts/duckdb_to_pg.py lfe4.duckdb
