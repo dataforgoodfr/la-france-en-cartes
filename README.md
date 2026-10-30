@@ -54,6 +54,12 @@ Démarrer le serveur
 docker-compose up -d
 ```
 
+Vérifier l'état du serveur
+
+```
+docker exec garage /garage status
+```
+
 Stopper le serveur
 
 ```bash
@@ -68,7 +74,6 @@ docker logs garage
 
 Attention. En cas d'erreur de permission, il y a deux solutions possibles :
 
-1. créer un group `docker` et y ajouter son compte (recommandé)  
+1. créer un group `docker` et y ajouter son compte (recommandé)
    voir [Linux post-installation steps for Docker Engine | Docker Docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 2. utiliser `sudo`
-
