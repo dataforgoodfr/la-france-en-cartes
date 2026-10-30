@@ -17,7 +17,7 @@ pipelines: (pipeline "education") (pipeline "transverse") (pipeline "sante") (pi
 
 # dbt (ex. just dbt build -t dev_s3). Chemins absolus vers ./data pour le target dev.
 dbt *args:
-    mkdir -p "{{justfile_directory()}}/data/dev/warehouse"
+    mkdir -p "{{justfile_directory()}}/data/dev/warehouse" "{{justfile_directory()}}/data/dev/database" "{{justfile_directory()}}/data/dev_s3/database"
     LFE4_DATA_DIR="{{justfile_directory()}}/data" uv run --directory dbt/lfe4 dbt {{args}}
 
 # Ingestion dlt puis build dbt, avec le meme profil (ex. just run dev_s3)
