@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: mart_education__ips_lycees_par_commune
+    config:
+      meta:
+        export: pmtiles
+        pmtiles_name: ips_lycees_par_commune
     columns:
       - name: code_commune
         data_tests:
