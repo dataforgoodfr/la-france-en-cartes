@@ -33,4 +33,5 @@ jobs:
       with:
         path: ~/.cache/pre-commit
         key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: pre-commit/action@v3.0.0
+    # uv venvs ship without pip, which pre-commit/action relies on
+    - run: uvx pre-commit run --all-files --show-diff-on-failure --color=always
