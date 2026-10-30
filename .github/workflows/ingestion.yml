@@ -1,14 +1,11 @@
 name: run ingestion
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'pipelines/**'
-      - 'justfile'
-      - 'uv.lock'
-      - 'pyproject.toml'
-      - '.github/workflows/ingestion.yml'
+  workflow_call:
+    inputs:
+      domain:
+        type: string
+        default: tous
 
   workflow_dispatch:
     inputs:
@@ -26,22 +23,22 @@ jobs:
       fail-fast: false
       matrix:
         domain:  ${{ fromJSON(
-          (github.event_name == 'workflow_dispatch' && inputs.domain != 'tous')
+          inputs.domain != 'tous'
           && format('["{0}"]', inputs.domain)
           || '["sante","agriculture","transverse","education", "securite"]') }}
     runs-on: ubuntu-24.04
     environment: pre-prod
     timeout-minutes: 15
     concurrency:
-      group: ${{ github.workflow }}-${{ matrix.domain }}
+      group: ingestion-pre-prod-${{ matrix.domain }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
           enable-cache: true
       - run: uv sync --locked
-      - uses: extractions/setup-just@v4
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: ingestion ${{ matrix.domain}} sur pre-prod
