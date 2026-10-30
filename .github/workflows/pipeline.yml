@@ -1,0 +1,85 @@
+name: pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: {}
+
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      dbt_checks: ${{ steps.filter.outputs.dbt_checks }}
+      ingestion: ${{ steps.filter.outputs.ingestion }}
+      transformation: ${{ steps.filter.outputs.transformation }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            ci: &ci
+              - '.github/workflows/pipeline.yml'
+            dbt_checks:
+              - *ci
+              - 'dbt/**'
+              - '.sqlfluff'
+              - 'pyproject.toml'
+              - 'uv.lock'
+              - '.github/workflows/dbt_checks.yml'
+            ingestion:
+              - *ci
+              - 'pipelines/**'
+              - 'justfile'
+              - 'uv.lock'
+              - 'pyproject.toml'
+              - '.github/workflows/ingestion.yml'
+            transformation:
+              - *ci
+              - 'dbt/**'
+              - 'pyproject.toml'
+              - 'uv.lock'
+              - '.github/workflows/transformation.yml'
+
+  pre-commit:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/pre-commit.yaml
+
+  dbt-checks:
+    needs: changes
+    if: needs.changes.outputs.dbt_checks == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/dbt_checks.yml
+
+  ingestion:
+    needs: [changes, pre-commit, dbt-checks]
+    if: >-
+      !cancelled() && !failure()
+      && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      && needs.changes.outputs.ingestion == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ingestion.yml
+    secrets: inherit
+
+  transformation:
+    needs: [changes, pre-commit, dbt-checks, ingestion]
+    if: >-
+      !cancelled() && !failure()
+      && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      && (needs.changes.outputs.transformation == 'true' || needs.changes.outputs.ingestion == 'true')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/transformation.yml
+    secrets: inherit
