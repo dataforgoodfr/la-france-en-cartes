@@ -28,7 +28,7 @@ jobs:
         domain:  ${{ fromJSON(
           (github.event_name == 'workflow_dispatch' && inputs.domain != 'tous')
           && format('["{0}"]', inputs.domain)
-          || '["sante","agriculture","transverse","education", securite]') }}
+          || '["sante","agriculture","transverse","education", "securite"]') }}
     runs-on: ubuntu-24.04
     environment: pre-prod
     timeout-minutes: 15
