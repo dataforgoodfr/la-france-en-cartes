@@ -1,0 +1,22 @@
+name: webapp
+
+on:
+  push:
+    branches: [main]
+    paths: ["webapp/**"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: 47ng/actions-clever-cloud@v2.1.0
+        with:
+          appID: ${{ secrets.CLEVER_APP_ID }}
+          sameCommitPolicy: rebuild
+        env:
+          CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
+          CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
