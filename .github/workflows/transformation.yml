@@ -26,6 +26,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       S3_ENDPOINT: ${{ vars.DUCKDB_S3_ENDPOINT }}
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+      AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
@@ -39,10 +42,13 @@ jobs:
       - name: Upload DuckDB database
         env:
           DUCKDB_S3_URL: ${{ vars.DUCKDB_S3_URL }}
-          AWS_DEFAULT_REGION: us-east-1
-          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
-          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
         run: aws s3 cp lfe4.duckdb "$DUCKDB_S3_URL" --endpoint-url "https://$S3_ENDPOINT"
+      - name: Install pmtiles tools
+        run: uv tool install geoparquet-io==1.6.0 && uv tool install tippecanoe==2.72.0
+      - name: Export marts to PMTiles
+        env:
+          PMTILES_DEST: ${{ vars.PMTILES_DEST }}
+        run: uv run python ../../scripts/marts_to_pmtiles.py target/manifest.json
       - name: Export DuckDB to Postgres
         env:
           PG_URI: ${{ secrets.PG_URI }}
