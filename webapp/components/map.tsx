@@ -48,7 +48,7 @@ export default function MapBase() {
         onClick={suivre}
         onMouseLeave={() => setSurvol(null)}
       >
-        <Source id="communes" type="vector" url="pmtiles:///data/ips_lycees_par_commune.pmtiles">
+        <Source id="communes" type="vector" url={`pmtiles://${process.env.NEXT_PUBLIC_TILES_BASE_URL || "/data"}/ips_lycees_par_commune.pmtiles`}>
           <Layer
             id="communes-aplat"
             type="fill"
