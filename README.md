@@ -46,6 +46,14 @@ uv run pipelines/run.py run build_database
 
     tox -vv
 
+## Utiliser l'application web
+
+```bash
+just webapp
+```
+
+Ouvrir [http://localhost:3000/](http://localhost:3000/)
+
 ## Utiliser le serveur S3
 
 Démarrer le serveur
@@ -77,3 +85,4 @@ Attention. En cas d'erreur de permission, il y a deux solutions possibles :
 1. créer un group `docker` et y ajouter son compte (recommandé)
    voir [Linux post-installation steps for Docker Engine | Docker Docs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 2. utiliser `sudo`
+
