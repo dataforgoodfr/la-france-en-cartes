@@ -1,0 +1,27 @@
+# [Quick Start | Garage HQ](https://garagehq.deuxfleurs.fr/documentation/quick-start/)
+
+metadata_dir = "/tmp/meta"
+data_dir = "/tmp/data"
+db_engine = "sqlite"
+
+replication_factor = 1
+
+rpc_bind_addr = "[::]:3901"
+rpc_public_addr = "127.0.0.1:3901"
+rpc_secret = "19a3ccff53acd06bbf5bc493ee5db68d7abe2ac27f2278c957899fe71c219f6b"
+
+[s3_api]
+s3_region = "lfe4"
+api_bind_addr = "[::]:3900"
+root_domain = ".s3.lfe4.localhost"
+public_endpoint = "http://s3.lfe4.localhost:3900"
+
+[s3_web]
+bind_addr = "[::]:3902"
+root_domain = ".web.lfe4.localhost"
+index = "index.html"
+
+[admin]
+api_bind_addr = "[::]:3903"
+admin_token = "PIFEkAkNPPaFk3g9Brg+AcgrSpPn+zxI0YjSzBvgBbg="
+metrics_token = "uNi42aq+ju6txuZ3U9MYdRlPqTFftEuDiFmeHowxE9A="
