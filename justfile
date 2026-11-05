@@ -1,5 +1,9 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
+# launch webapp
+webapp:
+    cd webapp && npm run dev
+
 # dlt's ingestion pipelines
 pipeline name:
     uv run --directory pipelines python -m {{name}}.{{name}}_pipeline

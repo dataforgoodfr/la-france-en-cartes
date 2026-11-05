@@ -46,6 +46,14 @@ uv run pipelines/run.py run build_database
 
     tox -vv
 
+## Utiliser l'application web
+
+```bash
+just webapp
+```
+
+Ouvrir [http://localhost:3000/](http://localhost:3000/)
+
 ## Utiliser le serveur S3
 
 Démarrer le serveur
