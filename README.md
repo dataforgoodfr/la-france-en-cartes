@@ -1,16 +1,42 @@
-# Template DataForGood
+# La France à la loupe
 
-This file will become your README and also the index of your
-documentation.
+Une collaboration Data For Good et The Conversation.
 
-# Contributing
+## Prérequis
 
+- python >= 3.12
+- uv
+- just
+- pre-commit
+- tox
 
 ## Installation
 
 - [Installation de Python](#installation-de-python)
 
 Ce projet utilise [uv](https://docs.astral.sh/uv/) pour la gestion des dépendances Python. Il est préréquis pour l'installation de ce projet.
+
+Si vous venez d'installer `uv`, mettez à jour la variable `PATH` :
+
+```bash
+uv tool update-shell
+```
+
+Puis fermez et redémarrez votre terminal.
+
+Pour installer just, pre-commit et tox :
+
+```bash
+uv tool install just
+uv tool install pre-commit
+uv tool install tox
+```
+
+Installation des scripts pre-commit :
+
+```
+pre-commit install
+```
 
 Une fois installé, il suffit de lancer la commande suivante pour installer la version de Python adéquate, créer un environnement virtuel et installer les dépendances du projet.
 
@@ -24,29 +50,29 @@ A l'usage, si vous utilisez VSCode, l'environnement virtuel sera automatiquement
 source .venv/bin/activate
 ```
 
-Ou alors, utilisez la commande `uv run ...` (au lieu de `python ...`) pour lancer un script Python. Par exemple:
+Ou alors, utilisez la commande `uv run ...` (au lieu de `python ...`) pour lancer un script Python. Par exemple :
 
 ```bash
 uv run pipelines/run.py run build_database
 ```
 
-
 ## Lancer les precommit-hook localement
 
 [Installer les precommit](https://pre-commit.com/)
 
-    uv tool install pre-commit
-    uv sync                      # installe ruff, sqlfluff et pyright aux versions de uv.lock
-    pre-commit install
-
-    pre-commit run --all-files
-
+```bash
+pre-commit run --all-files
+```
 
 ## Utiliser Tox pour tester votre code
 
-    tox -vv
+```bash
+tox -vv
+```
 
 ## Utiliser l'application web
+
+Pour lancer le serveur web :
 
 ```bash
 just webapp

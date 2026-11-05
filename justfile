@@ -1,9 +1,5 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
-# launch webapp
-webapp:
-    cd webapp && npm run dev
-
 # dlt's ingestion pipelines
 pipeline name:
     uv run --directory pipelines python -m {{name}}.{{name}}_pipeline
@@ -36,3 +32,7 @@ clean profile="dev":
 
 parquet_to_pmtiles fichier:
     gpio pmtiles create "{{fichier}}" "webapp/public/data/{{file_stem(fichier)}}.pmtiles" --max-zoom 9 --force
+
+# launch webapp
+webapp:
+    cd webapp && npm run dev
