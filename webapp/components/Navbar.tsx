@@ -1,31 +1,36 @@
+"use client"
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const links = [
+  { href: "/", text: "Accueil" },
+  { href: "/immigration", text: "Immigration" },
+  { href: "/education", text: "Éducation" },
+  { href: "/sante", text: "Santé" },
+  { href: "/agriculture", text: "Agriculture" },
+  { href: "/securite", text: "Sécurité" },
+  { href: "/mentions-legales", text: "Mentions légales" },
+];
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <nav>
-      <ul class="flex gap-4">
-        <li>
-          <Link href="/">Accueil</Link>
-        </li>
-        <li>
-          <Link href="/immigration">Immigration</Link>
-        </li>
-        <li>
-          <Link href="/education">Éducation</Link>
-        </li>
-        <li>
-          <Link href="/sante">Santé</Link>
-        </li>
-        <li>
-          <Link href="/agriculture">Agriculture</Link>
-        </li>
-        <li>
-          <Link href="/securite">Sécurité</Link>
-        </li>
-        <li>
-          <Link href="/mentions-legales">Mentions légales</Link>
-        </li>
-      </ul>
+    <nav className="flex gap-4">
+      {links.map((link) => {
+        let isActive;
+
+        if (link.href === "/") {
+          isActive = pathname === link.href;
+        } else {
+          isActive = pathname.startsWith(link.href);
+        }
+
+        return (
+          <Link key={link.href} href={link.href} className={isActive ? "highlight" : "" } >{link.text}</Link>
+        );
+      })}
     </nav>
   );
 }
