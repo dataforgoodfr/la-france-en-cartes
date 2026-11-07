@@ -22,11 +22,11 @@ En profil dev, les données sont écrites dans data/dev/warehouse
 
 Les targets dbt reprennent les [profils dlt](../../pipelines/README.md#profils) : chaque target lit le lake (`lake/`) écrit par le profil dlt du même nom et écrit ses sorties à côté, dans `warehouse/`.
 
-| Target | Lake lu (`lake_root`) | Marts écrits (`external_root`) | Prérequis |
-|---|---|---|---|
-| `dev` (défaut) | `./data/dev/lake` | `./data/dev/warehouse` | pipelines lancées avec le profil dlt `dev` |
-| `dev_s3` | `s3://lfe4/lake` (MinIO local) | `s3://lfe4/warehouse` | `docker compose up -d` |
-| `pre_prod` | `$DBT_LAKE_ROOT` | `$DBT_EXTERNAL_ROOT` | `DBT_LAKE_ROOT`, `DBT_EXTERNAL_ROOT`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_ENDPOINT` |
+| Target         | Lake lu (`lake_root`)           | Marts écrits (`external_root`) | Prérequis                                                                                         |
+|----------------|---------------------------------|--------------------------------|---------------------------------------------------------------------------------------------------|
+| `dev` (défaut) | `./data/dev/lake`               | `./data/dev/warehouse`         | pipelines lancées avec le profil dlt `dev`                                                        |
+| `dev_s3`       | `s3://lfe4/lake` (Garage local) | `s3://lfe4/warehouse`          | `docker compose up -d`                                                                            |
+| `pre_prod`     | `$DBT_LAKE_ROOT`                | `$DBT_EXTERNAL_ROOT`           | `DBT_LAKE_ROOT`, `DBT_EXTERNAL_ROOT`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_ENDPOINT` |
 
 En `dev`, la base DuckDB est `./data/dev/database/lfe4.duckdb` (`./data/dev_s3/database/lfe4.duckdb` en `dev_s3`). En `pre_prod`, la CI la construit localement puis la copie sur le S3 à l'URL de la variable `DUCKDB_S3_URL`. Les marts y sont des vues sur les fichiers parquet. Pensez à charger l'extension `spatial` pour lire les colonnes géométriques.
 

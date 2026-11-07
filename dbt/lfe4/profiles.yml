@@ -12,7 +12,7 @@ lfe4:
         - parquet
         - spatial
 
-    # MinIO local (docker compose up -d).
+    # Garage local (docker compose up -d).
     dev_s3:
       type: duckdb
       path: "{{ env_var('LFE4_DATA_DIR', '../../data') }}/dev_s3/database/lfe4.duckdb"
@@ -24,11 +24,11 @@ lfe4:
         - spatial
       secrets:
         - type: s3
-          key_id: "{{ env_var('AWS_ACCESS_KEY_ID', 'minioadmin') }}"
-          secret: "{{ env_var('AWS_SECRET_ACCESS_KEY', 'minioadmin') }}"
-          endpoint: "{{ env_var('S3_ENDPOINT', 'localhost:9000') }}"
+          key_id: "{{ env_var('AWS_ACCESS_KEY_ID', 'garagekeyid') }}"
+          secret: "{{ env_var('AWS_SECRET_ACCESS_KEY', 'garagesecretchangethis') }}"
+          endpoint: "{{ env_var('S3_ENDPOINT', 'localhost:3900') }}"
           url_style: path
-          # MinIO local en HTTP
+          # Garage local en HTTP
           use_ssl: false
 
     # S3 de pre-prod
